@@ -16,8 +16,6 @@ format:
     toc-depth: 2
   docx: default
   pdf: default
-execute: 
-  freeze: true
 date-modified: today
 date-format: long
 ---
@@ -59,7 +57,8 @@ df = spark.read.option("header", "true").option("inferSchema", "true").option("m
 
 ```{python}
 # Histogram of SALARY distribution
-fig = px.histogram(df.toPandas(), x="SALARY", nbins=50, title="Salary Distribution")
+salary_df = df.filter(col("SALARY").isNotNull() & (col("SALARY") > 0))
+fig = px.histogram(salary_df.toPandas(), x="SALARY", nbins=50, title="Salary Distribution")
 fig.update_layout(bargap=0.1)
 ```
 
